@@ -19,9 +19,9 @@ create memobase directory
 
 上記コマンドを実行すれば以下のディレクトリ構造が出来上がります。
 
-memobase/
-    ├── memo
-    └── template
+memobase/  
+    ├── memo  
+    └── template  
 
 memo：作成したメモ帳を保管するフォルダーです  
 
@@ -49,4 +49,3 @@ create tmp.txt
 $ mb new --name tmp
 create tmp.txt
 ```
-
