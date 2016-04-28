@@ -67,5 +67,13 @@ configフォルダーにある「config.json」ファイルを編集すること
     "name": "<directoryname>",
     "editor": <defaultEditor>
 }
+
+// example
+{
+    "name": "memobase",
+    "editor": "vim"
+}
 ```
+
+上記の例ですとエディターにvimが指定されているため「mb new -o」コマンド入力時はvimが自動的に起動されます
 
