@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/codegangsta/cli"
@@ -21,6 +22,10 @@ func newInit(c *cli.Context) {
 	if err := os.MkdirAll(dirName+"/template", 0777); err != nil {
 		fmt.Println(err)
 	}
+	config := newConfig()
+	config.Name = dirName
+	config.marshalJSON()
+
 	fmt.Println("create " + dirName + " directory")
 }
 
@@ -30,6 +35,7 @@ func newAction(c *cli.Context) {
 		return
 	}
 
+	config := unmarshalJSON()
 	filename := createFilename(time.Now().Format("2006-01-02-15-04-05"))
 
 	if len(name) > 0 {
@@ -59,4 +65,10 @@ func newAction(c *cli.Context) {
 		}
 	}
 	fmt.Printf("create %s\n", filename)
+	if c.Bool("open") == true {
+		cmd := exec.Command(config.Editor, "memo/"+filename)
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 }

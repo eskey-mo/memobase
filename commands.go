@@ -6,6 +6,7 @@ import (
 
 var name string
 var template string
+var open string
 
 // Commands list
 var Commands = []cli.Command{
@@ -31,5 +32,10 @@ var commandNew = cli.Command{
 			Name:        "template, t",
 			Usage:       "using text template",
 			Destination: &template,
+		},
+		cli.BoolFlag{
+			Name:   "open, o",
+			Usage:  "open text editor",
+			EnvVar: "DEFAULT",
 		}},
 }

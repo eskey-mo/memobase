@@ -6,6 +6,7 @@
 
 * メモ管理フォルダーの作成
 * メモ新規作成
+* 設定
 
 # メモ管理フォルダーの作成
 
@@ -20,14 +21,15 @@ create memobase directory
 上記コマンドを実行すれば以下のディレクトリ構造が出来上がります。
 
 memobase/  
+    ├── config.json
     ├── memo  
     └── template  
+
+config：設定ファイルの格納先です  
 
 memo：作成したメモ帳を保管するフォルダーです  
 
 template：メモ帳のテンプレートを保管するフォルダーです  
-
-
 
 
 # メモの新規作成
@@ -48,4 +50,22 @@ $ mb new -n tmp
 create tmp.txt
 $ mb new --name tmp
 create tmp.txt
+
+# 作成後、エディタを開く
+$ mb new -o
+$ mb new --open
 ```
+
+# 設定
+
+configフォルダーにある「config.json」ファイルを編集することにより以下の設定ができます。
+
+* デフォルトエディター
+
+```json
+{
+    "name": "<directoryname>",
+    "editor": <defaultEditor>
+}
+```
+
