@@ -9,13 +9,18 @@ import (
 
 // config is application config
 type config struct {
-	Name   string `json:"name"`
-	Editor string `json:"editor"`
+	Name            string `json:"name"`
+	Editor          string `json:"editor"`
+	NewFileDatetime string `json:"newFileDatetime"`
 }
 
 // newConfig is config.json parse
 func newConfig() *config {
-	return &config{Name: "default", Editor: "vim"}
+	return &config{
+		Name:            "default",
+		Editor:          "vim",
+		NewFileDatetime: "2006-01-02",
+	}
 }
 
 // marshalJSON is config.json parse to json

@@ -60,20 +60,24 @@ $ mb new --open
 
 configフォルダーにある「config.json」ファイルを編集することにより以下の設定ができます。
 
-* デフォルトエディター
 
 ```json
 {
     "name": "<directoryname>",
-    "editor": <defaultEditor>
+    "editor": "<defaultEditor>",
+    "newFileDatetime": "<defaultNewFileDatetime>"
 }
 
 // example
 {
     "name": "memobase",
-    "editor": "vim"
+    "editor": "vim",
+    "newFileDatatime": "2016-12-21"
 }
 ```
 
-上記の例ですとエディターにvimが指定されているため「mb new -o」コマンド入力時はvimが自動的に起動されます
-
+* デフォルトエディター
+デフォルトで使用するエディターを設定できます。上記の例ですとエディターにvimが指定されているため「mb new -o」コマンド入力時はvimが自動的に起動されます
+* デフィルトファイルネーム
+新規ファイル作成時の日付情報を設定できます。
+上記の例ですと新規メモ作成時は年月日（YYYY-MM-dd.txt）で作成されます。
