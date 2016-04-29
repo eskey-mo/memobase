@@ -25,7 +25,7 @@ memobase/
     ├── memo  
     └── template  
 
-config：設定ファイルの格納先です  
+config.json：設定ファイルの格納先です  
 
 memo：作成したメモ帳を保管するフォルダーです  
 
@@ -54,11 +54,14 @@ create tmp.txt
 # 作成後、エディタを開く
 $ mb new -o
 $ mb new --open
+
+# カテゴリーを作成する
+$ mb new -c todo
+$ mb new --category todo
+todo/2016-04-29.txt
 ```
 
-# 設定
-
-configフォルダーにある「config.json」ファイルを編集することにより以下の設定ができます。
+# configフォルダーにある「config.json」ファイルを編集することにより以下の設定ができます。
 
 
 ```json
@@ -81,3 +84,13 @@ configフォルダーにある「config.json」ファイルを編集すること
 * デフィルトファイルネーム
 新規ファイル作成時の日付情報を設定できます。
 上記の例ですと新規メモ作成時は年月日（YYYY-MM-dd.txt）で作成されます。
+
+# Todo
+
+今後追加したい機能になります
+
+* メモ編集（簡易アクセス？）
+* グローバル設定ファイル（複数のmemobaseフォルダーへの簡易アクセス）
+* gitによる差分管理のための.gitignore自動生成
+* markdown対応とローカルWEBからのアクセス
+

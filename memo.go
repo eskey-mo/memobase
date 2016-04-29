@@ -30,7 +30,7 @@ func newInit(c *cli.Context) {
 }
 
 func newAction(c *cli.Context) {
-	if stat := isExist("memo"); stat == false {
+	if false == isExist("memo") {
 		fmt.Println("failed! memobase directory is not exist")
 		return
 	}
@@ -42,6 +42,12 @@ func newAction(c *cli.Context) {
 		filename = createFilename(name)
 	}
 
+	if len(category) > 0 {
+		if err := os.MkdirAll("memo/"+category, 0777); err != nil {
+			fmt.Println("category create failed")
+		}
+		filename = category + "/" + filename
+	}
 	dst, err := os.Create("memo/" + filename)
 	if err != nil {
 		fmt.Println("file create failed")
@@ -50,7 +56,7 @@ func newAction(c *cli.Context) {
 
 	if len(template) > 0 {
 		templatePath := "template/" + template
-		if stat := isExist(templatePath); stat == false {
+		if false == isExist(templatePath) {
 			fmt.Println("failed! template directory is not exist")
 		} else {
 			src, err := os.Open(templatePath)
