@@ -4,9 +4,9 @@ import (
 	"github.com/codegangsta/cli"
 )
 
-var name string
-var template string
-var category string
+var gName string
+var gTemplate string
+var gCategory string
 
 // Commands list
 var Commands = []cli.Command{
@@ -26,12 +26,12 @@ var commandNew = cli.Command{
 		cli.StringFlag{
 			Name:        "name, n",
 			Usage:       "create filename",
-			Destination: &name,
+			Destination: &gName,
 		},
 		cli.StringFlag{
 			Name:        "template, t",
 			Usage:       "using text template",
-			Destination: &template,
+			Destination: &gTemplate,
 		},
 		cli.BoolFlag{
 			Name:   "open, o",
@@ -41,6 +41,6 @@ var commandNew = cli.Command{
 		cli.StringFlag{
 			Name:        "category, c",
 			Usage:       "make memo category",
-			Destination: &category,
+			Destination: &gCategory,
 		}},
 }

@@ -4,10 +4,16 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"time"
 
 	"github.com/codegangsta/cli"
+)
+
+const (
+	// MEMO is memo directory name
+	MEMO = "memo"
+	// TEMPLATE is template directory name
+	TEMPLATE = "template"
 )
 
 func newInit(c *cli.Context) {
@@ -15,66 +21,70 @@ func newInit(c *cli.Context) {
 		fmt.Println("no firectory name")
 		return
 	}
-	dirName := c.Args()[0]
-	if err := os.MkdirAll(dirName+"/memo", 0777); err != nil {
-		fmt.Println(err)
-	}
-	if err := os.MkdirAll(dirName+"/template", 0777); err != nil {
-		fmt.Println(err)
-	}
+	dirname := c.Args()[0]
+	makeDirectory(dirname + "/" + MEMO)
+	makeDirectory(dirname + "/" + TEMPLATE)
 	config := newConfig()
-	config.Name = dirName
+	config.Name = dirname
 	config.marshalJSON()
 
-	fmt.Println("create " + dirName + " directory")
+	fmt.Println("create " + dirname + " directory")
 }
 
 func newAction(c *cli.Context) {
-	if false == isExist("memo") {
+	// memo exist
+	if false == isExist(MEMO) {
 		fmt.Println("failed! memobase directory is not exist")
 		return
 	}
 
+	// read config file
 	config := unmarshalJSON()
 	filename := createFilename(time.Now().Format(config.NewFileDatetime))
 
-	if len(name) > 0 {
-		filename = createFilename(name)
+	// name option
+	if len(gName) > 0 {
+		filename = createFilename(gName)
 	}
 
-	if len(category) > 0 {
-		if err := os.MkdirAll("memo/"+category, 0777); err != nil {
-			fmt.Println("category create failed")
-		}
-		filename = category + "/" + filename
-	}
-	dst, err := os.Create("memo/" + filename)
-	if err != nil {
-		fmt.Println("file create failed")
-		os.Exit(1)
+	// category option
+	if len(gCategory) > 0 {
+		filename = optionCategoryByNewAction(filename, gCategory)
 	}
 
-	if len(template) > 0 {
-		templatePath := "template/" + template
-		if false == isExist(templatePath) {
-			fmt.Println("failed! template directory is not exist")
-		} else {
-			src, err := os.Open(templatePath)
-			if err != nil {
-				panic(err)
-			}
-			defer src.Close()
-			_, err = io.Copy(dst, src)
-			if err != nil {
-				panic(err)
-			}
-		}
+	// create new memo file
+	fileDirectory := createFile(MEMO + "/" + filename)
+
+	// template option
+	if len(gTemplate) > 0 {
+		optionTemplateByNewAction(fileDirectory, gTemplate)
 	}
-	fmt.Printf("create %s\n", filename)
+
+	// open option
 	if c.Bool("open") == true {
-		cmd := exec.Command(config.Editor, "memo/"+filename)
-		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
-		cmd.Run()
+		execCommand(config.Editor, MEMO+"/"+filename)
+	}
+	// command finish
+	fmt.Printf("create %s\n", filename)
+}
+
+func optionCategoryByNewAction(filename string, category string) string {
+	makeDirectory(MEMO + "/" + category)
+	return category + "/" + filename
+}
+
+func optionTemplateByNewAction(filedirectory *os.File, template string) {
+	templatePath := TEMPLATE + "/" + template
+	if false == isExist(templatePath) {
+		fmt.Println("failed! template directory is not exist")
+	} else {
+		src, err := os.Open(templatePath)
+		if err != nil {
+			panic(err)
+		}
+		defer src.Close()
+		if _, err = io.Copy(filedirectory, src); err != nil {
+			panic(err)
+		}
 	}
 }
