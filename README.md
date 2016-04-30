@@ -21,7 +21,7 @@ create memobase directory
 上記コマンドを実行すれば以下のディレクトリ構造が出来上がります。
 
 memobase/  
-    ├── config.json
+    ├── config.json  
     ├── memo  
     └── template  
 
